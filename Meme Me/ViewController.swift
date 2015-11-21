@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var image: UIImageView!
     
@@ -21,11 +21,28 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var bottomText: UITextField!
     
     @IBOutlet weak var bottomSpacing: NSLayoutConstraint!
+    
+    var topDrag = false
+
+    var startLocation:CGPoint!
+    
+    var endLocation:CGPoint!
+    
+    var topYOriginal:CGFloat?
+    
+    var topXOriginal1:CGFloat?
+    
+    var topXOriginal2:CGFloat?
+    
+    var topChangeX:CGFloat?
+    
+    var topChangeY:CGFloat?
 
     
     var memes: [Meme]!
     
     var originalBottomSpacing:CGFloat?
+    
     
 
     let memeTextAttributes = [
@@ -41,7 +58,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func choosePhoto(sender: AnyObject) {
-        print("can you hear me git?")
         getPhoto(UIImagePickerControllerSourceType.PhotoLibrary)
 
    }
@@ -75,17 +91,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func generateMemedImage() -> UIImage {
         
+        
+        print(bottomText.frame)
+        
+        print(image.frame)
+        
         UIGraphicsBeginImageContext(image.frame.size)
 
         let context = UIGraphicsGetCurrentContext()
         
         image.layer.renderInContext(context!)
         
-        CGContextTranslateCTM(context, 0.0, topText.frame.minY - image.frame.minY)
+        CGContextTranslateCTM(context, topText.frame.minX - image.frame.minX, topText.frame.minY - image.frame.minY)
         
         topText.layer.renderInContext(context!)
         
-        CGContextTranslateCTM(context, 0.0, image.frame.height - bottomText.frame.height - bottomSpacing.constant - (topText.frame.minY - image.frame.minY))
+        CGContextTranslateCTM(context, bottomText.frame.minX - image.frame.minX - (topText.frame.minX - image.frame.minX), bottomText.frame.minY - image.frame.minY - (topText.frame.minY - image.frame.minY))
         
         bottomText.layer.renderInContext(context!)
 
@@ -110,6 +131,26 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     
+    @IBOutlet weak var topTextYConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var topTextXContraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var topTextX2Constraint: NSLayoutConstraint!
+    
+
+    
+
+    @IBAction func bottomEditEnded(sender: AnyObject) {
+        
+        
+//        print("waddup")
+//        
+//        bottomSpacing.constant = originalBottomSpacing!
+        
+        
+    }
+    
+    
     @IBAction func shareMeme(sender: AnyObject) {
         
         if topText.text != nil && bottomText.text != nil && image.image != nil{
@@ -120,12 +161,40 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
     }
     
+    func userDraggedTop(gesture: UIPanGestureRecognizer){
+        var loc = gesture.locationInView(self.view)
+        
+        self.topText.center = loc
+        
+    }
+
+    
+    func userDraggedBottom(gesture: UIPanGestureRecognizer){
+        var loc = gesture.locationInView(self.view)
+        
+        self.bottomText.center = loc
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        var gestureTop = UIPanGestureRecognizer(target: self, action: Selector("userDraggedTop:"))
+        
+        var gestureBottom = UIPanGestureRecognizer(target: self, action: Selector("userDraggedBottom:"))
+        
+        bottomText.addGestureRecognizer(gestureBottom)
+        bottomText.userInteractionEnabled = true
+        
+        topText.addGestureRecognizer(gestureTop)
+        topText.userInteractionEnabled = true
+        
+        
+        
+        
         // Do any additional setup after loading the view, typically from a nib.
         cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
-
 
         topText.defaultTextAttributes = memeTextAttributes
                         topText.textColor = UIColor.whiteColor()
@@ -136,8 +205,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         bottomText.textAlignment = .Center
 
-
-        
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         view.addGestureRecognizer(tap)
         
@@ -154,7 +221,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func keyboardWillShow(notification: NSNotification) {
-        bottomSpacing.constant += getKeyboardHeight(notification) - originalBottomSpacing!
+        
+        bottomSpacing.constant = getKeyboardHeight(notification) - (originalBottomSpacing!/2)
         
     }
     
@@ -178,7 +246,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
 
     func keyboardWillHide(notification: NSNotification){
+        
         bottomSpacing.constant = originalBottomSpacing!
+        
     }
 
     override func didReceiveMemoryWarning() {

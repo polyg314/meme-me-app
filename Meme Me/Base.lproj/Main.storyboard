@@ -60,6 +60,9 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
+                                <connections>
+                                    <action selector="bottomEditEnded:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="L8p-lt-TBc"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" allowsEditingTextAttributes="YES" placeholder="Top" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hoE-pR-Wr6">
                                 <rect key="frame" x="20" y="102" width="560" height="45"/>
@@ -101,11 +104,14 @@
                         <outlet property="cameraButton" destination="sbH-5L-2sQ" id="dbU-Dh-PLA"/>
                         <outlet property="image" destination="qYo-yi-dz1" id="fCR-Zp-rsa"/>
                         <outlet property="topText" destination="hoE-pR-Wr6" id="4s4-P1-Usg"/>
+                        <outlet property="topTextX2Constraint" destination="PC7-dc-R7E" id="QKg-hC-4ro"/>
+                        <outlet property="topTextXContraint" destination="Xjs-Pt-ary" id="YZ6-ut-rbL"/>
+                        <outlet property="topTextYConstraint" destination="PRQ-Y6-PbD" id="sbt-Vo-WEy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="305" y="366"/>
+            <point key="canvasLocation" x="305" y="386"/>
         </scene>
     </scenes>
 </document>
