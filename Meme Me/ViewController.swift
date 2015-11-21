@@ -41,7 +41,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func choosePhoto(sender: AnyObject) {
-        
+        print("can you hear me git?")
         getPhoto(UIImagePickerControllerSourceType.PhotoLibrary)
 
    }
