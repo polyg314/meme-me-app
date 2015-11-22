@@ -26,6 +26,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBOutlet weak var bottomLeading: NSLayoutConstraint!
     
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    
+    @IBOutlet weak var shareButton: UIBarButtonItem!
+    
+    
     var topConstY:CGFloat?
     
     var topConstX1:CGFloat?
@@ -97,11 +102,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func generateMemedImage() -> UIImage {
         
-        
-        print(bottomText.frame)
-        
-        print(image.frame)
-        
         UIGraphicsBeginImageContext(image.frame.size)
 
         let context = UIGraphicsGetCurrentContext()
@@ -126,15 +126,18 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func save() {
         
         let memedImage = generateMemedImage()
-        let meme = Meme( topText: topText.text!, bottomText: bottomText.text!, image: image.image!, memedImage: memedImage)
+        let meme = Meme( topText: topText.text!, bottomText: bottomText.text!, image: image.image!, memedImage: memedImage, topConstraints: topText.constraints, bottomConstraints: bottomText.constraints)
         
         memes.append(meme)
         
-        let activityViewController = UIActivityViewController(activityItems:[memedImage] , applicationActivities: nil)
-        
-        self.presentViewController(activityViewController, animated: true, completion: nil)
+        let object = UIApplication.sharedApplication().delegate
+        let appDelegate = object as! AppDelegate
+        appDelegate.memes = memes
         
     }
+    
+    
+    
     
     
     @IBOutlet weak var topTextYConstraint: NSLayoutConstraint!
@@ -145,15 +148,93 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
 
     
+    
+    
+    @IBAction func saveMeme(sender: UIBarButtonItem) {
+        
+        if checkEnabled(){
+            
+            save()
+        
+        }
+        
+    }
+    
+    func checkEnabled() -> Bool{
+    
+        if topText.text != nil && bottomText.text != nil && image.image != nil{
+         
+            saveButton.enabled = true
+            shareButton.enabled = true
+            
+            return true
+            
+        }else{
+            
+            saveButton.enabled = false
+            shareButton.enabled = false
+        
+            return false
+        
+        }
+    
+    }
+    
+    
+    @IBAction func topEditEnded(sender: AnyObject) {
+        
+        checkEnabled()
+        
+        if topText.text!.characters.count == 0  {
+        
+            topText.text = "TOP"
+            
+            styleTopText()
+        
+        }
+        
+        if topText.text! == "TOP"{
+        
+            topText.clearsOnBeginEditing = true
+        
+        }
+        
+    }
 
     @IBAction func bottomEditEnded(sender: AnyObject) {
         
+        checkEnabled()
         
-//        print("waddup")
-//        
-//        bottomSpacing.constant = originalBottomSpacing!
+        if bottomText.text!.characters.count == 0 {
         
+            bottomText.text = "BOTTOM"
+            
+            styleBottomText()
+            
+        }
         
+        if bottomText.text! == "BOTTOM" {
+        
+           bottomText.clearsOnBeginEditing = true
+        
+        }
+        
+    }
+    
+    func styleTopText(){
+    
+        topText.defaultTextAttributes = memeTextAttributes
+        topText.textColor = UIColor.whiteColor()
+        topText.textAlignment = .Center
+        
+    }
+    
+    func styleBottomText(){
+        
+        bottomText.textColor = UIColor.whiteColor()
+        bottomText.defaultTextAttributes = memeTextAttributes
+        bottomText.textAlignment = .Center
+    
     }
     
     
@@ -161,26 +242,26 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         if topText.text != nil && bottomText.text != nil && image.image != nil{
         
-            save()
+            let activityViewController = UIActivityViewController(activityItems:[generateMemedImage()], applicationActivities: nil)
+            
+            self.presentViewController(activityViewController, animated: true, completion: nil)
 
         }
         
     }
     
     func userDraggedTop(gesture: UIPanGestureRecognizer){
-        var loc = gesture.locationInView(self.view)
+       
+        let loc = gesture.locationInView(self.view)
         
         self.topText.center = loc
-
-        print(topConstY)
-        
-        print(topConstX1)
         
     }
 
     
     func userDraggedBottom(gesture: UIPanGestureRecognizer){
-        var loc = gesture.locationInView(self.view)
+        
+        let loc = gesture.locationInView(self.view)
         
         self.bottomText.center = loc
         
@@ -192,9 +273,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         topText.clearsOnBeginEditing = true
         bottomText.clearsOnBeginEditing = true
         
-        var gestureTop = UIPanGestureRecognizer(target: self, action: Selector("userDraggedTop:"))
+        let gestureTop = UIPanGestureRecognizer(target: self, action: Selector("userDraggedTop:"))
         
-        var gestureBottom = UIPanGestureRecognizer(target: self, action: Selector("userDraggedBottom:"))
+        let gestureBottom = UIPanGestureRecognizer(target: self, action: Selector("userDraggedBottom:"))
         
         bottomText.addGestureRecognizer(gestureBottom)
         bottomText.userInteractionEnabled = true
@@ -202,20 +283,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         topText.addGestureRecognizer(gestureTop)
         topText.userInteractionEnabled = true
         
+        styleTopText()
         
-        
+        styleBottomText()
         
         // Do any additional setup after loading the view, typically from a nib.
         cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
 
-        topText.defaultTextAttributes = memeTextAttributes
-                        topText.textColor = UIColor.whiteColor()
-        topText.textAlignment = .Center
-
-            bottomText.textColor = UIColor.whiteColor()
-        bottomText.defaultTextAttributes = memeTextAttributes
-        
-        bottomText.textAlignment = .Center
 
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         view.addGestureRecognizer(tap)
@@ -257,6 +331,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let object = UIApplication.sharedApplication().delegate
         let appDelegate = object as! AppDelegate
         memes = appDelegate.memes
+        
+        checkEnabled()
         
 
         

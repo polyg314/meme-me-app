@@ -15,31 +15,84 @@ class CollectionViewController: UICollectionViewController {
     
     let identifier = "CellIdentifier"
     
+    var memes: [Meme]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let object = UIApplication.sharedApplication().delegate
+        let appDelegate = object as! AppDelegate
+        memes = appDelegate.memes
+
+        theCollection.delegate = self
+
     }
     
-
-    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 1
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
+        print("Mememememems")
+        print(memes)
+//        print(memes!.count)
+        
     }
+    
+    
+    
+    
+//    override func viewWillLayoutSubviews() {
+////        
+////        theCollection.collectionViewLayout.invalidateLayout()
+//    }
+//    
+
+//    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+//        return 1
+//    }
+//    
+    
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section:Int) -> Int{
-        return 15
+        
+        if let temp = memes{
+                        print(temp.count)
+            return temp.count
+            
+
+            
+        }else{
+            
+            print("ummm")
+        
+            return 0
+        
+        }
     }
     
+    func collectionView(collectionView: UICollectionView,layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+            let size = (collectionView.frame.size.width/3)
+            return CGSizeMake(size, size)
+    }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let myCell = collectionView.dequeueReusableCellWithReuseIdentifier(identifier, forIndexPath: indexPath) as! Cell
         
-        
-        myCell.memeImage.image = UIImage(named: "IMG_4849.jpg")
+
+        myCell.memeImage.image = memes![indexPath.item].memedImage
         
         return myCell
    
         
     }
+    
+    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        
+        print(indexPath.item)
+        
+    }
+
     
 //    override func collectionView(collectionView: UICollectionView, forItem
 //    
