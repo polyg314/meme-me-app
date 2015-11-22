@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Meme Me/ViewController.swift"
-            timestampString = "469840609.19514"
+            timestampString = "469848658.97563"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
             landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -49,6 +49,128 @@
             endingLineNumber = "14"
             landmarkName = "Meme"
             landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Meme Me/AppDelegate.swift"
+            timestampString = "469851025.670002"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "10"
+            endingLineNumber = "10">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Meme_Me.AppDelegate.__deallocating_deinit"
+                  moduleName = "Meme Me"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/paulgaudin/Desktop/code/Meme%20Me/Meme%20Me/AppDelegate.swift"
+                  timestampString = "469851113.518175"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Meme_Me.AppDelegate.init (Meme_Me.AppDelegate.Type)() -&gt; Meme_Me.AppDelegate"
+                  moduleName = "Meme Me"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/paulgaudin/Desktop/code/Meme%20Me/Meme%20Me/AppDelegate.swift"
+                  timestampString = "469851113.518779"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "main"
+                  moduleName = "Meme Me"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/paulgaudin/Desktop/code/Meme%20Me/Meme%20Me/AppDelegate.swift"
+                  timestampString = "469851113.519089"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "12"
+                  endingLineNumber = "12"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Meme Me/AppDelegate.swift"
+            timestampString = "469851118.993948"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "9"
+            endingLineNumber = "9">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Meme_Me.AppDelegate.__deallocating_deinit"
+                  moduleName = "Meme Me"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/paulgaudin/Desktop/code/Meme%20Me/Meme%20Me/AppDelegate.swift"
+                  timestampString = "469851118.996298"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Meme_Me.AppDelegate.init (Meme_Me.AppDelegate.Type)() -&gt; Meme_Me.AppDelegate"
+                  moduleName = "Meme Me"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/paulgaudin/Desktop/code/Meme%20Me/Meme%20Me/AppDelegate.swift"
+                  timestampString = "469851118.996519"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "main"
+                  moduleName = "Meme Me"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/paulgaudin/Desktop/code/Meme%20Me/Meme%20Me/AppDelegate.swift"
+                  timestampString = "469851118.996703"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "12"
+                  endingLineNumber = "12"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
