@@ -213,7 +213,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func shareMeme(sender: AnyObject) {
         
         if topText.text != nil && bottomText.text != nil && image.image != nil{
-        
+            
+            save()
+            
             let activityViewController = UIActivityViewController(activityItems:[generateMemedImage()], applicationActivities: nil)
             
             self.presentViewController(activityViewController, animated: true, completion: nil)

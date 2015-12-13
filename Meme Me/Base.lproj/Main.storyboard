@@ -102,12 +102,12 @@
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
-                            <barButtonItem title="send" id="Aw3-S3-oMx">
+                            <barButtonItem systemItem="action" id="Aw3-S3-oMx">
                                 <connections>
                                     <action selector="shareMeme:" destination="BYZ-38-t0r" id="6fs-oq-Uxk"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Save Image" id="GX7-HE-e6f">
+                            <barButtonItem title="Item" id="GX7-HE-e6f">
                                 <connections>
                                     <action selector="saveMeme:" destination="BYZ-38-t0r" id="Xe7-eb-X65"/>
                                 </connections>
