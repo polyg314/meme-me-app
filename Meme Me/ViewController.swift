@@ -228,7 +228,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
        
         let loc = gesture.locationInView(self.view)
         
-        self.topText.center = loc
+        topText.center = loc
         
     }
 
@@ -237,7 +237,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         let loc = gesture.locationInView(self.view)
         
-        self.bottomText.center = loc
+        bottomText.center = loc
         
     }
     
