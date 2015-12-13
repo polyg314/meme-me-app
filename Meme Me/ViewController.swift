@@ -12,8 +12,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
     @IBOutlet weak var image: UIImageView!
     
-    var imagePicker = UIImagePickerController()
-    
     @IBOutlet weak var cameraButton: UIBarButtonItem!
     
     @IBOutlet weak var topText: UITextField!
@@ -21,7 +19,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var bottomText: UITextField!
     
     @IBOutlet weak var bottomSpacing: NSLayoutConstraint!
-    
+
     @IBOutlet weak var bottomTrailing: NSLayoutConstraint!
     
     @IBOutlet weak var bottomLeading: NSLayoutConstraint!
@@ -29,7 +27,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
     @IBOutlet weak var shareButton: UIBarButtonItem!
+
+    @IBOutlet weak var useLibraryButton: UIBarButtonItem!
     
+    @IBOutlet weak var takePhotoButton: UIBarButtonItem!
+    
+    @IBOutlet weak var topTextYConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var topTextXConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var topTextX2Constraint: NSLayoutConstraint!
+    
+    var imagePicker = UIImagePickerController()
+    
+    var currentMeme:Meme?
     
     var topConstY:CGFloat?
     
@@ -37,10 +48,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     var topConstX2:CGFloat?
     
+    var bottomConstY:CGFloat?
+    
+    var bottomConstX1:CGFloat?
+    
+    var bottomConstX2:CGFloat?
+    
     var memes: [Meme]!
     
     var originalBottomSpacing:CGFloat?
-    
     
     var topPlacement:CGPoint?
     
@@ -53,21 +69,27 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         NSForegroundColorAttributeName : UIColor.whiteColor()
     ]
 
+    
     @IBAction func takePhoto(sender: AnyObject) {
-        
         getPhoto(UIImagePickerControllerSourceType.Camera)
     }
     
     @IBAction func choosePhoto(sender: AnyObject) {
-        getPhoto(UIImagePickerControllerSourceType.PhotoLibrary)
-
+        topConstY = topTextYConstraint.constant
+        let object = UIApplication.sharedApplication().delegate
+        let appDelegate = object as! AppDelegate
+        if appDelegate.currentIndex == -1 { 
+            getPhoto(UIImagePickerControllerSourceType.PhotoLibrary)
+        }else{
+            memes.removeAtIndex(appDelegate.currentIndex)
+            appDelegate.memes = memes
+            performSegueWithIdentifier("toCollection", sender: self)
+        }
    }
     
     func getPhoto(source: UIImagePickerControllerSourceType){
         imagePicker.delegate = self
-        
         imagePicker.sourceType = source
-        
         self.presentViewController(imagePicker, animated: true, completion: nil)
     }
     
@@ -78,15 +100,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.image.contentMode = UIViewContentMode.ScaleAspectFit
             self.view.sendSubviewToBack(image)
             self.image.image = imageChosen
+            checkEnabled()
         }else{
             print("errorrrrrr")
+            checkEnabled()
         }
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        
         self.dismissViewControllerAnimated(true, completion: nil)
-        
     }
     
     @IBAction func editTopBegin(sender: AnyObject) {
@@ -97,9 +119,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func editBottomBegin(sender: AnyObject) {
         bottomText.clearsOnBeginEditing = false
     }
-    
-
-    
+ 
     func generateMemedImage() -> UIImage {
         
         UIGraphicsBeginImageContext(image.frame.size)
@@ -124,33 +144,24 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func save() {
-        
         let memedImage = generateMemedImage()
-        let meme = Meme( topText: topText.text!, bottomText: bottomText.text!, image: image.image!, memedImage: memedImage, topConstraints: topText.constraints, bottomConstraints: bottomText.constraints)
-        
-        memes.append(meme)
-        
+        let meme = Meme( topText: topText.text!, bottomText: bottomText.text!, image: image.image!, memedImage: memedImage, bottomSpacing: bottomSpacing, bottomTrailing: bottomTrailing, bottomLeading: bottomLeading, topTextYConstraint: topTextYConstraint, topTextXConstraint: topTextXConstraint, topTextX2Constraint: topTextX2Constraint )
         let object = UIApplication.sharedApplication().delegate
         let appDelegate = object as! AppDelegate
+        if appDelegate.currentIndex != -1 {
+            memes[appDelegate.currentIndex] = meme
+        }else{
+            memes.append(meme)
+        }
         appDelegate.memes = memes
-        
+        performSegueWithIdentifier("toCollection", sender: self)
+
     }
     
-    
-    
-    
-    
-    @IBOutlet weak var topTextYConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var topTextXContraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var topTextX2Constraint: NSLayoutConstraint!
-    
-
-    
-    
-    
     @IBAction func saveMeme(sender: UIBarButtonItem) {
+        
+        
+        topConstY = topTextYConstraint.constant
         
         if checkEnabled(){
             
@@ -293,7 +304,43 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         view.addGestureRecognizer(tap)
+
         
+        originalBottomSpacing = bottomSpacing.constant
+        self.subscribeToKeyboardNotifications()
+        
+        let object = UIApplication.sharedApplication().delegate
+        let appDelegate = object as! AppDelegate
+        memes = appDelegate.memes
+        
+        checkEnabled()
+        
+        if appDelegate.currentIndex != -1 {
+            currentMeme = memes![appDelegate.currentIndex]
+            self.image.image = currentMeme!.image
+            self.image.contentMode = UIViewContentMode.ScaleAspectFit
+            self.topText.text = currentMeme!.topText
+            self.topTextYConstraint.constant = currentMeme!.topTextYConstraint.constant
+            self.topTextXConstraint.constant = currentMeme!.topTextXConstraint.constant
+            self.topTextX2Constraint.constant = currentMeme!.topTextX2Constraint.constant
+            self.bottomText.text = currentMeme!.bottomText
+            self.bottomSpacing.constant = currentMeme!.bottomSpacing.constant
+            self.bottomLeading.constant = currentMeme!.bottomLeading.constant
+            self.bottomTrailing.constant = currentMeme!.bottomTrailing.constant
+            self.saveButton.title = "update"
+            self.saveButton.enabled = true
+            self.shareButton.enabled = true
+            self.useLibraryButton.title = "delete"
+            self.useLibraryButton.enabled = true
+            self.takePhotoButton.enabled = false
+            self.takePhotoButton.title = ""
+            self.view.sendSubviewToBack(image)
+        } else{
+            self.saveButton.title = "save"
+            self.useLibraryButton.title = "use library"
+            self.takePhotoButton.title = "take photo"
+            self.takePhotoButton.enabled = true
+        }
     }
     
     func dismissKeyboard() {
@@ -307,9 +354,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func keyboardWillShow(notification: NSNotification) {
-        
-        bottomSpacing.constant = getKeyboardHeight(notification) - (originalBottomSpacing!/2)
-        
+        setConstraints()
+        if bottomSpacing.constant < getKeyboardHeight(notification) + 50 {
+                bottomSpacing.constant = getKeyboardHeight(notification) + (originalBottomSpacing!/2)
+        }
     }
     
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
@@ -318,95 +366,42 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return keyboardSize.CGRectValue().height
     }
     
-    override func viewWillAppear(animated: Bool) {
-
-        super.viewWillAppear(animated)
-        print(topPlacement)
-        print(bottomPlacement)
-
+    func setConstraints(){
         
-        originalBottomSpacing = bottomSpacing.constant
-        self.subscribeToKeyboardNotifications()
+        topConstY = topText.frame.minY - image.frame.minY
+        topConstX1 = topText.frame.minX - image.frame.minX
+        topConstX2 = topText.frame.minX - image.frame.minX
+        bottomConstY = image.frame.maxY - bottomText.frame.maxY
+        bottomConstX1 = bottomText.frame.minX - image.frame.minX
+        bottomConstX2 = bottomText.frame.minX - image.frame.minX
+        originalBottomSpacing = bottomConstY
         
-        let object = UIApplication.sharedApplication().delegate
-        let appDelegate = object as! AppDelegate
-        memes = appDelegate.memes
-        
-        checkEnabled()
-        
-
-        
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-
-//        print(topConstY)
-//        
-//        print(topConstX1)
-//        
-//        if var topConstY = topConstY {
-//            
-//            topTextYConstraint.constant = topConstY
-//        
-//        }
-//        
-//        if var topConstX1 = topConstX1{
-//        
-//            topTextXContraint.constant = topConstX1
-//        
-//        }
-//        
-//        if var topConstX2 = topConstX2 {
-//        
-//            topTextX2Constraint.constant = topConstX2
-//        
-//        }
-        
-//        
-//        
-//        if var bottomPlacement = bottomPlacement{
-//            
-//            print("heyyy just do it")
-//
-//        }
-//        
-//        if var topPlacement = topPlacement{
-//            
-//            print("really tho")
-//            self.topText.center = topPlacement
-//            
-//        }
+        if let topConstY = topConstY {
+            topTextYConstraint.constant = topConstY
+        }
+        if let topConstX1 = topConstX1 {
+            topTextXConstraint.constant = topConstX1
+        }
+        if let topConstX2 = topConstX2 {
+            topTextX2Constraint.constant = topConstX2
+        }
+        if let bottomConstY = bottomConstY {
+            bottomSpacing.constant = bottomConstY
+        }
+        if let bottomConstX1 = bottomConstX1 {
+            bottomLeading.constant = bottomConstX1
+        }
+        if let bottomConstX2 = bottomConstX2 {
+            bottomTrailing.constant = bottomConstX2
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
-        
-        topTextYConstraint.constant = topText.frame.minY - image.frame.minY
-        
-        topTextXContraint.constant = topText.frame.minX - image.frame.minX
-
-        topTextX2Constraint.constant = topText.frame.minX - image.frame.minX
-//        
-//        topConstY = topTextYConstraint.constant
-//        
-//        topConstX1 = topTextXContraint.constant
-//        
-//        topConstX2 = topTextX2Constraint.constant
-        
-
-        bottomSpacing.constant = image.frame.maxY - bottomText.frame.maxY
-        
-        bottomLeading.constant = bottomText.frame.minX - image.frame.minX
-       
-         bottomTrailing.constant = bottomText.frame.minX - image.frame.minX
-
-        print("disappear")
-        
+        setConstraints()
     }
 
     func keyboardWillHide(notification: NSNotification){
-        
         bottomSpacing.constant = originalBottomSpacing!
-        
     }
 
     override func didReceiveMemoryWarning() {
