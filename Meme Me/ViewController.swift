@@ -97,12 +97,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         self.dismissViewControllerAnimated(true, completion: nil)
         if let imageChosen = info["UIImagePickerControllerOriginalImage"] as? UIImage {
-            self.image.contentMode = UIViewContentMode.ScaleAspectFit
+            image.contentMode = UIViewContentMode.ScaleAspectFit
             self.view.sendSubviewToBack(image)
-            self.image.image = imageChosen
+            image.image = imageChosen
             checkEnabled()
         }else{
-            print("errorrrrrr")
             checkEnabled()
         }
     }
@@ -159,81 +158,43 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     @IBAction func saveMeme(sender: UIBarButtonItem) {
-        
-        
-        topConstY = topTextYConstraint.constant
-        
-        if checkEnabled(){
-            
-            save()
-        
-        }
-        
+            save()        
     }
     
-    func checkEnabled() -> Bool{
-    
+    func checkEnabled(){
         if topText.text != nil && bottomText.text != nil && image.image != nil{
-         
             saveButton.enabled = true
             shareButton.enabled = true
-            
-            return true
-            
         }else{
-            
             saveButton.enabled = false
             shareButton.enabled = false
-        
-            return false
-        
         }
-    
     }
     
     
     @IBAction func topEditEnded(sender: AnyObject) {
-        
         checkEnabled()
-        
         if topText.text!.characters.count == 0  {
-        
             topText.text = "TOP"
-            
             styleTopText()
-        
         }
-        
         if topText.text! == "TOP"{
-        
             topText.clearsOnBeginEditing = true
-        
         }
-        
     }
 
     @IBAction func bottomEditEnded(sender: AnyObject) {
-        
         checkEnabled()
-        
         if bottomText.text!.characters.count == 0 {
-        
             bottomText.text = "BOTTOM"
-            
             styleBottomText()
-            
         }
-        
         if bottomText.text! == "BOTTOM" {
-        
            bottomText.clearsOnBeginEditing = true
-        
         }
-        
     }
     
     func styleTopText(){
-    
         topText.defaultTextAttributes = memeTextAttributes
         topText.textColor = UIColor.whiteColor()
         topText.textAlignment = .Center
@@ -280,6 +241,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+
 
         topText.clearsOnBeginEditing = true
         bottomText.clearsOnBeginEditing = true
@@ -317,29 +280,32 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         if appDelegate.currentIndex != -1 {
             currentMeme = memes![appDelegate.currentIndex]
-            self.image.image = currentMeme!.image
-            self.image.contentMode = UIViewContentMode.ScaleAspectFit
-            self.topText.text = currentMeme!.topText
-            self.topTextYConstraint.constant = currentMeme!.topTextYConstraint.constant
-            self.topTextXConstraint.constant = currentMeme!.topTextXConstraint.constant
-            self.topTextX2Constraint.constant = currentMeme!.topTextX2Constraint.constant
-            self.bottomText.text = currentMeme!.bottomText
-            self.bottomSpacing.constant = currentMeme!.bottomSpacing.constant
-            self.bottomLeading.constant = currentMeme!.bottomLeading.constant
-            self.bottomTrailing.constant = currentMeme!.bottomTrailing.constant
-            self.saveButton.title = "update"
-            self.saveButton.enabled = true
-            self.shareButton.enabled = true
-            self.useLibraryButton.title = "delete"
-            self.useLibraryButton.enabled = true
-            self.takePhotoButton.enabled = false
-            self.takePhotoButton.title = ""
+            image.image = currentMeme!.image
+            image.contentMode = UIViewContentMode.ScaleAspectFit
+            topText.text = currentMeme!.topText
+            topTextYConstraint.constant = currentMeme!.topTextYConstraint.constant
+            topTextXConstraint.constant = currentMeme!.topTextXConstraint.constant
+            topTextX2Constraint.constant = currentMeme!.topTextX2Constraint.constant
+            bottomText.text = currentMeme!.bottomText
+            bottomSpacing.constant = currentMeme!.bottomSpacing.constant
+            bottomLeading.constant = currentMeme!.bottomLeading.constant
+            bottomTrailing.constant = currentMeme!.bottomTrailing.constant
+            saveButton.title = "update"
+            saveButton.enabled = true
+            shareButton.enabled = true
+            useLibraryButton.title = "delete"
+            useLibraryButton.enabled = true
+            takePhotoButton.enabled = false
+            takePhotoButton.title = ""
             self.view.sendSubviewToBack(image)
         } else{
-            self.saveButton.title = "save"
-            self.useLibraryButton.title = "use library"
-            self.takePhotoButton.title = "take photo"
-            self.takePhotoButton.enabled = true
+            saveButton.title = "save"
+            useLibraryButton.title = "use library"
+            takePhotoButton.title = "take photo"
+            takePhotoButton.enabled = true
+            if !UIImagePickerController.isSourceTypeAvailable(.Camera){
+               takePhotoButton.enabled = false
+            }
         }
     }
     
