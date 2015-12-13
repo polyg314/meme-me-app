@@ -83,22 +83,22 @@ class CreateMemeController: UIViewController, UIImagePickerControllerDelegate, U
         }else{
             memes.removeAtIndex(appDelegate.currentIndex)
             appDelegate.memes = memes
-            performSegueWithIdentifier("toCollection", sender: self)
+            performSegueWithIdentifier("toCollection", sender: nil)
         }
    }
     
     func getPhoto(source: UIImagePickerControllerSourceType){
         imagePicker.delegate = self
         imagePicker.sourceType = source
-        self.presentViewController(imagePicker, animated: true, completion: nil)
+        presentViewController(imagePicker, animated: true, completion: nil)
     }
     
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true, completion: nil)
         if let imageChosen = info["UIImagePickerControllerOriginalImage"] as? UIImage {
             image.contentMode = UIViewContentMode.ScaleAspectFit
-            self.view.sendSubviewToBack(image)
+            view.sendSubviewToBack(image)
             image.image = imageChosen
             checkEnabled()
         }else{
@@ -107,7 +107,7 @@ class CreateMemeController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func editTopBegin(sender: AnyObject) {
@@ -153,7 +153,7 @@ class CreateMemeController: UIViewController, UIImagePickerControllerDelegate, U
             memes.append(meme)
         }
         appDelegate.memes = memes
-        performSegueWithIdentifier("toCollection", sender: self)
+        performSegueWithIdentifier("toCollection", sender: nil)
 
     }
     
@@ -218,7 +218,7 @@ class CreateMemeController: UIViewController, UIImagePickerControllerDelegate, U
             
             let activityViewController = UIActivityViewController(activityItems:[generateMemedImage()], applicationActivities: nil)
             
-            self.presentViewController(activityViewController, animated: true, completion: nil)
+            presentViewController(activityViewController, animated: true, completion: nil)
 
         }
         
@@ -226,7 +226,7 @@ class CreateMemeController: UIViewController, UIImagePickerControllerDelegate, U
     
     func userDraggedTop(gesture: UIPanGestureRecognizer){
        
-        let loc = gesture.locationInView(self.view)
+        let loc = gesture.locationInView(view)
         
         topText.center = loc
         
@@ -235,7 +235,7 @@ class CreateMemeController: UIViewController, UIImagePickerControllerDelegate, U
     
     func userDraggedBottom(gesture: UIPanGestureRecognizer){
         
-        let loc = gesture.locationInView(self.view)
+        let loc = gesture.locationInView(view)
         
         bottomText.center = loc
         
@@ -272,7 +272,7 @@ class CreateMemeController: UIViewController, UIImagePickerControllerDelegate, U
 
         
         originalBottomSpacing = bottomSpacing.constant
-        self.subscribeToKeyboardNotifications()
+        subscribeToKeyboardNotifications()
         
         let object = UIApplication.sharedApplication().delegate
         let appDelegate = object as! AppDelegate
@@ -299,7 +299,7 @@ class CreateMemeController: UIViewController, UIImagePickerControllerDelegate, U
             useLibraryButton.enabled = true
             takePhotoButton.enabled = false
             takePhotoButton.title = ""
-            self.view.sendSubviewToBack(image)
+            view.sendSubviewToBack(image)
         } else{
             saveButton.title = "save"
             useLibraryButton.title = "use library"
