@@ -58,4 +58,5 @@ class CollectionViewController: UICollectionViewController {
         performSegueWithIdentifier("toMeme", sender: indexNumber)
         return true
     }
+    
 }
