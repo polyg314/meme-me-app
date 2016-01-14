@@ -11,6 +11,7 @@ import UIKit
 
 class CollectionViewController: UICollectionViewController {
     
+    
     @IBOutlet var theCollection: UICollectionView!
     let identifier = "CellIdentifier"
     var memes: [Meme]?
@@ -21,9 +22,17 @@ class CollectionViewController: UICollectionViewController {
         let appDelegate = object as! AppDelegate
         memes = appDelegate.memes
         theCollection.delegate = self
+        
+
+   
     }
     
-    @IBAction func toMemeNew(sender: AnyObject) {
+    override func viewDidAppear(animated: Bool) {
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "new", style: .Plain, target: self, action: "newMeme")
+    }
+    
+    
+    func newMeme() {
         let object = UIApplication.sharedApplication().delegate
         let appDelegate = object as! AppDelegate
         appDelegate.currentIndex = -1

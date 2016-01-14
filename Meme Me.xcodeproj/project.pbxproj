@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E10C31A1C472DAF00283C28 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E10C3191C472DAF00283C28 /* TableViewController.swift */; };
+		0E10C31C1C472FB800283C28 /* TableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E10C31B1C472FB800283C28 /* TableCell.swift */; };
 		0EA64F9B1C01671A009F103F /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA64F9A1C01671A009F103F /* CollectionViewController.swift */; };
 		0EA64F9F1C016CC9009F103F /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA64F9E1C016CC9009F103F /* Cell.swift */; };
 		0EDB3F911C0013A100DDB2AB /* Meme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDB3F901C0013A100DDB2AB /* Meme.swift */; };
@@ -37,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0E10C3191C472DAF00283C28 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		0E10C31B1C472FB800283C28 /* TableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableCell.swift; sourceTree = "<group>"; };
 		0EA64F9A1C01671A009F103F /* CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		0EA64F9E1C016CC9009F103F /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		0EDB3F901C0013A100DDB2AB /* Meme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Meme.swift; path = ../Meme.swift; sourceTree = "<group>"; };
@@ -106,7 +110,9 @@
 				0EDB3F901C0013A100DDB2AB /* Meme.swift */,
 				0EED2B551BFFEBAC000EF9A4 /* AppDelegate.swift */,
 				0EA64F9E1C016CC9009F103F /* Cell.swift */,
+				0E10C31B1C472FB800283C28 /* TableCell.swift */,
 				0EA64F9A1C01671A009F103F /* CollectionViewController.swift */,
+				0E10C3191C472DAF00283C28 /* TableViewController.swift */,
 				0EED2B571BFFEBAC000EF9A4 /* ViewController.swift */,
 				0EED2B591BFFEBAC000EF9A4 /* Main.storyboard */,
 				0EED2B5C1BFFEBAC000EF9A4 /* Assets.xcassets */,
@@ -266,7 +272,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EA64F9B1C01671A009F103F /* CollectionViewController.swift in Sources */,
+				0E10C31A1C472DAF00283C28 /* TableViewController.swift in Sources */,
 				0EDB3F911C0013A100DDB2AB /* Meme.swift in Sources */,
+				0E10C31C1C472FB800283C28 /* TableCell.swift in Sources */,
 				0EA64F9F1C016CC9009F103F /* Cell.swift in Sources */,
 				0EED2B581BFFEBAC000EF9A4 /* ViewController.swift in Sources */,
 				0EED2B561BFFEBAC000EF9A4 /* AppDelegate.swift in Sources */,

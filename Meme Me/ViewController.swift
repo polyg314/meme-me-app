@@ -80,12 +80,16 @@ class CreateMemeController: UIViewController, UIImagePickerControllerDelegate, U
         let appDelegate = object as! AppDelegate
         if appDelegate.currentIndex == -1 { 
             getPhoto(UIImagePickerControllerSourceType.PhotoLibrary)
-        }else{
-            memes.removeAtIndex(appDelegate.currentIndex)
-            appDelegate.memes = memes
-            performSegueWithIdentifier("toCollection", sender: nil)
         }
    }
+    
+    func deleteMeme(){
+        let object = UIApplication.sharedApplication().delegate
+        let appDelegate = object as! AppDelegate
+        memes.removeAtIndex(appDelegate.currentIndex)
+        appDelegate.memes = memes
+        performSegueWithIdentifier("toCollection", sender: nil)
+    }
     
     func getPhoto(source: UIImagePickerControllerSourceType){
         imagePicker.delegate = self
@@ -241,6 +245,8 @@ class CreateMemeController: UIViewController, UIImagePickerControllerDelegate, U
         
     }
     
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -295,11 +301,17 @@ class CreateMemeController: UIViewController, UIImagePickerControllerDelegate, U
             saveButton.title = "update"
             saveButton.enabled = true
             shareButton.enabled = true
-            useLibraryButton.title = "delete"
+            useLibraryButton.title = ""
             useLibraryButton.enabled = true
             takePhotoButton.enabled = false
             takePhotoButton.title = ""
+            self.navigationController?.setToolbarHidden(false, animated: false)
             view.sendSubviewToBack(image)
+            self.setToolbarItems(toolbarItems, animated: true)
+            let item2 = UIBarButtonItem(title: "Delete", style: .Plain, target: self, action: "deleteMeme")
+            self.setToolbarItems([item2], animated: false)
+
+            
         } else{
             saveButton.title = "save"
             useLibraryButton.title = "use library"
