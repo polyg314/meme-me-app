@@ -97,7 +97,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="HDe-15-CPs">
-                        <barButtonItem key="leftBarButtonItem" title="Your Memes" id="46e-J6-kxv">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="46e-J6-kxv">
                             <connections>
                                 <segue destination="HBq-zJ-OIJ" kind="presentation" animates="NO" id="TAC-tE-0PI"/>
                             </connections>
